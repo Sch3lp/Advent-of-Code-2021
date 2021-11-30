@@ -1,10 +1,12 @@
-# Code Retreat - Kotlin
+# Advent of Code 2021
 
-Kickstart Kotlin 1.5.31 with AssertJ and Mockito.
+My solutions to Advent of Code 2021, in Kotlin
 
-Take care to update IntelliJ's Kotlin version when prompted!
+Kickstarted Kotlin 1.6.0 with AssertJ and Mockito.
 
 [Mockito Kotlin usage](https://kotlintesting.com/using-mockito-in-kotlin-projects/)
 
 Happy Coding!
 
+## 2021/11/30 - The day before
+Being a good boi and initializing a repo with some common classes that I'll probably need to solve the exercises.
