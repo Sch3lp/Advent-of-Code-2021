@@ -7,7 +7,7 @@ class FilesTest {
 
     @Test
     fun `can read files as list of strings`() {
-        val actual : List<String> = "input.txt".asStream().readLines()
+        val actual : List<String> = "input.txt".readLines()
 
         assertThat(actual).containsExactly(
             "1,Bruce,Wayne",
