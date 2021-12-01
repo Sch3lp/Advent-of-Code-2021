@@ -39,38 +39,7 @@ class Day1Test {
         fun `actual input should return the answer`() {
             val readLines: List<String> = "day1/actualInput.txt".readLines()
 
-            assertThat(solve2(readLines)).isEqualTo(1791)
+            assertThat(solve2(readLines)).isEqualTo(1822)
         }
     }
-}
-
-fun solve2(depthMeasurements: List<String>) : Int {
-    var increases = 0
-    val measurementSums = depthMeasurements
-        .map { it.toInt() }
-        .windowed(3)
-        .map { it.sum() }
-    measurementSums
-        .forEachIndexed { index, measurementSum ->
-        if (index != 0) {
-            val previousMeasurement = measurementSums[index - 1]
-            if (measurementSum > previousMeasurement.toInt()) {
-                increases++
-            }
-        }
-    }
-    return increases
-}
-
-fun solve1(depthMeasurements: List<String>) : Int {
-    var increases = 0
-    depthMeasurements.forEachIndexed { index, measurement ->
-        if (index != 0) {
-            val previousMeasurement = depthMeasurements[index - 1]
-            if (measurement.toInt() > previousMeasurement.toInt()) {
-                increases++
-            }
-        }
-    }
-    return increases
 }
