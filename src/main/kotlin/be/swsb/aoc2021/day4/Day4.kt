@@ -1,53 +1,73 @@
 package be.swsb.aoc2021.day4
 
+import java.util.*
+
 object Day4 {
     fun solve1(input: List<String>): Int {
-        val randomlyDrawnNumbers : List<Int> = input[0].split(",").map { it.toInt() }
+        return solve(input).first().let { (board, winningNumber) ->
+            board.findUnmarked().sum() * winningNumber
+        }
+    }
+
+    fun solve2(input: List<String>): Int {
+        return solve(input).last().let { (board, number) ->
+            board.findUnmarked().sum() * number
+        }
+    }
+
+    private fun solve(input: List<String>): List<Pair<BingoBoard, Int>> {
+        val randomlyDrawnNumbers: List<Int> = input[0].split(",").map { it.toInt() }
         val bingoBoards: List<BingoBoard> = input.drop(2)
             .filterNot { it.isBlank() }
-            .windowed(5,5)
+            .windowed(5, 5)
             .map { parseToBingoBoard(it) }
+        val winningBoards = mutableMapOf<UUID, Pair<BingoBoard, Int>>()
         randomlyDrawnNumbers.forEach { number ->
             bingoBoards.map { bingoBoard ->
                 if (bingoBoard.findAndMark(number)) {
-                    val sumOfUnmarked = bingoBoard.findUnmarked().sum()
-                    return sumOfUnmarked * number
+                    winningBoards.putIfAbsent(bingoBoard.id, bingoBoard to number)
                 }
             }
         }
-        throw IllegalStateException("There were no randomlyDrawnNumber of bingo boards?")
+        return winningBoards.values.toList()
     }
 }
 
 fun parseToBingoBoard(input: List<String>): BingoBoard {
-    return BingoBoard(input.map { rowLine ->
+    return BingoBoard(rows = input.map { rowLine ->
         Row(*rowLine.split(" ").filter { it.isNotEmpty() }.map { it.toInt() }.toIntArray())
     })
 }
 
-data class BingoBoard(val rows: Rows) {
+data class BingoBoard(val id: UUID = UUID.randomUUID(), val rows: Rows) {
     val columns: Columns
         get() = (1..rows[0].size).map { value -> Column(rows.map { it[value - 1] }) }
 
-    fun findAndMark(number: Int): Bingo {
+    private var frozen: Boolean = false
+
+    fun findAndMark(number: Int): Boolean = whenNotFrozen(true) {
         find(number)?.mark()
-        return checkBingo()
+        return@whenNotFrozen checkBingo().also { freezeBoardWhenBingo(it) }
     }
 
-    fun find(number: Int): MarkableNumber? {
-        return rows.find(number)
+    fun find(number: Int): MarkableNumber? = rows.find(number)
+
+    fun findUnmarked(): List<Int> = rows.getUnmarked()
+
+    private fun checkBingo(): Boolean = rows.any(Row::hasBingo) || columns.any(Column::hasBingo)
+
+    private fun freezeBoardWhenBingo(bingo: Boolean) {
+        this.frozen = bingo
     }
 
-    fun findUnmarked(): List<Int> {
-        return rows.getUnmarked()
-    }
-
-    private fun checkBingo(): Bingo {
-        return rows.any(Row::hasBingo) || columns.any(Column::hasBingo)
+    private fun <T> whenNotFrozen(frozenDefault: T, block: () -> T): T {
+        return if (!frozen) {
+            block()
+        } else {
+            frozenDefault
+        }
     }
 }
-
-typealias Bingo = Boolean
 
 private fun Rows.find(numberToFind: Int): MarkableNumber? {
     forEach {
@@ -57,12 +77,12 @@ private fun Rows.find(numberToFind: Int): MarkableNumber? {
     return null
 }
 
-private fun Rows.getUnmarked(): List<Int> {
-    return flatMap { row -> row.getUnmarked() }
-}
+private fun Rows.getUnmarked(): List<Int> =
+    flatMap { row -> row.getUnmarked() }
 
 data class Row(private val numbers: List<MarkableNumber>) : List<MarkableNumber> by numbers {
     constructor(vararg values: Int) : this(values.asList().map { MarkableNumber(it) })
+
     fun hasBingo() = numbers.all { it.marked }
     fun getUnmarked(): List<Int> {
         return numbers.filter { it.unmarked }.map { it.number }
@@ -71,6 +91,7 @@ data class Row(private val numbers: List<MarkableNumber>) : List<MarkableNumber>
 
 data class Column(private val numbers: List<MarkableNumber>) : List<MarkableNumber> by numbers {
     constructor(vararg values: Int) : this(values.asList().map { MarkableNumber(it) })
+
     fun hasBingo() = numbers.all { it.marked }
 }
 typealias Rows = List<Row>
@@ -79,6 +100,7 @@ typealias Columns = List<Column>
 data class MarkableNumber(val number: Int, var marked: Boolean = false) {
     val unmarked: Boolean
         get() = !marked
+
     fun mark() {
         marked = true
     }

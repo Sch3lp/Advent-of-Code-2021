@@ -23,10 +23,24 @@ class Day4Test {
     }
 
     @Test
-    fun `Actual input should return 4512`() {
+    fun `Actual input should return 25023`() {
         val input = "day4/actualInput.txt".readLines()
 
         assertThat(Day4.solve1(input)).isEqualTo(25023)
+    }
+
+    @Test
+    fun `Example input should return 1924`() {
+        val input = "day4/testInput.txt".readLines()
+
+        assertThat(Day4.solve2(input)).isEqualTo(1924)
+    }
+
+    @Test
+    fun `Actual input should return 2634`() {
+        val input = "day4/actualInput.txt".readLines()
+
+        assertThat(Day4.solve2(input)).isEqualTo(2634)
     }
 
     @Nested
