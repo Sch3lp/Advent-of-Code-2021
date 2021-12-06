@@ -24,11 +24,27 @@ class Day5Test {
         assertThat(actual).isEqualTo(5147)
     }
 
+    @Test
+    fun `test input for part 2 results in 5 overlapping points`() {
+        val input = "day5/testInput.txt".readLines()
+        val actual = Day5.solve2(input)
+
+        assertThat(actual).isEqualTo(12)
+    }
+
+    @Test
+    fun `actual input for part 2 results in 16925 overlapping points`() {
+        val input = "day5/actualInput.txt".readLines()
+        val actual = Day5.solve2(input)
+
+        assertThat(actual).isEqualTo(16925)
+    }
+
     @Nested
     inner class DrawLineTest {
         @Test
         fun `can draw horizontal lines`() {
-            val actual: List<Point> = "0,9 -> 5,9".drawLine()
+            val actual: List<Point> = "0,9 -> 5,9".drawLine { startCoord, endCoord -> startCoord.isOrthogonalTo(endCoord) }
 
             assertThat(actual).containsExactly(
                 at(0,9),
@@ -42,7 +58,7 @@ class Day5Test {
 
         @Test
         fun `can draw vertical lines`() {
-            val actual: List<Point> = "9,0 -> 9,5".drawLine()
+            val actual: List<Point> = "9,0 -> 9,5".drawLine { startCoord, endCoord -> startCoord.isOrthogonalTo(endCoord) }
 
             assertThat(actual).containsExactly(
                 at(9,0),
@@ -51,6 +67,19 @@ class Day5Test {
                 at(9,3),
                 at(9,4),
                 at(9,5)
+            )
+        }
+
+        @Test
+        fun `can draw diagonal lines`() {
+            val actual: List<Point> = "9,7 -> 7,9".drawLine { startCoord, endCoord -> startCoord.isStrict45DiagonalTo(
+                endCoord
+            ) }
+
+            assertThat(actual).containsExactlyInAnyOrder(
+                at(9,7),
+                at(8,8),
+                at(7,9),
             )
         }
 
