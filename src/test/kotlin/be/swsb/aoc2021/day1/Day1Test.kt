@@ -14,14 +14,14 @@ class Day1Test {
         fun `example input should return 7 increases`() {
             val readLines: List<String> = "day1/testInput.txt".readLines()
 
-            assertThat(solve1(readLines)).isEqualTo(7)
+            assertThat(Day1.solve1(readLines)).isEqualTo(7)
         }
 
         @Test
         fun `actual input should return the answer`() {
             val readLines: List<String> = "day1/actualInput.txt".readLines()
 
-            assertThat(solve1(readLines)).isEqualTo(1791)
+            assertThat(Day1.solve1(readLines)).isEqualTo(1791)
         }
     }
 
@@ -32,14 +32,14 @@ class Day1Test {
         fun `example input should return 5 increases`() {
             val readLines: List<String> = "day1/testInput.txt".readLines()
 
-            assertThat(solve2(readLines)).isEqualTo(5)
+            assertThat(Day1.solve2(readLines)).isEqualTo(5)
         }
 
         @Test
         fun `actual input should return the answer`() {
             val readLines: List<String> = "day1/actualInput.txt".readLines()
 
-            assertThat(solve2(readLines)).isEqualTo(1822)
+            assertThat(Day1.solve2(readLines)).isEqualTo(1822)
         }
     }
 }

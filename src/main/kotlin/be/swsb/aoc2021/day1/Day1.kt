@@ -1,19 +1,19 @@
 package be.swsb.aoc2021.day1
 
-
-fun solve1(depthMeasurementInput: List<String>): Int {
-    return depthMeasurementInput
-        .map { it.toDepthMeasurement() }
-        .zipWithNext()
-        .count { (prev, cur) -> prev < cur }
-}
-
-fun solve2(depthMeasurementInput: List<String>): Int {
-    return depthMeasurementInput
-        .map { it.toDepthMeasurement() }
-        .toDepthMeasurementSums()
-        .zipWithNext()
-        .count { (prev, cur) -> prev < cur }
+object Day1 {
+    fun solve1(depthMeasurementInput: List<String>): Int {
+        return depthMeasurementInput
+            .map { it.toDepthMeasurement() }
+            .zipWithNext()
+            .count { (prev, cur) -> prev < cur }
+    }
+    fun solve2(depthMeasurementInput: List<String>): Int {
+        return depthMeasurementInput
+            .map { it.toDepthMeasurement() }
+            .toDepthMeasurementSums()
+            .zipWithNext()
+            .count { (prev, cur) -> prev < cur }
+    }
 }
 
 private fun String.toDepthMeasurement() = DepthMeasurement(this)
