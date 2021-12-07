@@ -21,14 +21,14 @@ fun List<Int>.dayPasses(): List<Int> {
 }
 
 fun dayCyclePart2(initialSchool: List<Int>, days: Int): Long {
-    val fishGroupedByIncubationTime: Map<IncubationTime, Long> = (0..8).associateWith { incubationTime ->
-        initialSchool.count { it == incubationTime }.toLong()
+    val fishGroupedByGestationTime: Map<GestationTime, Long> = (0..8).associateWith { gestationTime ->
+        initialSchool.count { it == gestationTime }.toLong()
     }
 
-    return (1..days).fold(fishGroupedByIncubationTime) { acc, _ -> acc.dayPasses() }.values.sum()
+    return (1..days).fold(fishGroupedByGestationTime) { acc, _ -> acc.dayPasses() }.values.sum()
 }
 
-fun Map<IncubationTime, Long>.dayPasses(): Map<IncubationTime, Long> {
+fun Map<GestationTime, Long>.dayPasses(): Map<GestationTime, Long> {
     return map { (k, _) ->
         when (k) {
             6 -> k to (this[k+1]!! + this[0]!!)
@@ -38,4 +38,4 @@ fun Map<IncubationTime, Long>.dayPasses(): Map<IncubationTime, Long> {
     }.toMap()
 }
 
-typealias IncubationTime = Int
+typealias GestationTime = Int
