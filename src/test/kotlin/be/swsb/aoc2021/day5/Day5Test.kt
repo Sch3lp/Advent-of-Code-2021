@@ -1,5 +1,6 @@
 package be.swsb.aoc2021.day5
 
+import be.swsb.aoc2021.common.Point
 import be.swsb.aoc2021.common.readLines
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.entry
@@ -47,12 +48,12 @@ class Day5Test {
             val actual: List<Point> = "0,9 -> 5,9".drawLine { startCoord, endCoord -> startCoord.isOrthogonalTo(endCoord) }
 
             assertThat(actual).containsExactly(
-                at(0,9),
-                at(1,9),
-                at(2,9),
-                at(3,9),
-                at(4,9),
-                at(5,9)
+                Point.at(0, 9),
+                Point.at(1, 9),
+                Point.at(2, 9),
+                Point.at(3, 9),
+                Point.at(4, 9),
+                Point.at(5, 9)
             )
         }
 
@@ -61,12 +62,12 @@ class Day5Test {
             val actual: List<Point> = "9,0 -> 9,5".drawLine { startCoord, endCoord -> startCoord.isOrthogonalTo(endCoord) }
 
             assertThat(actual).containsExactly(
-                at(9,0),
-                at(9,1),
-                at(9,2),
-                at(9,3),
-                at(9,4),
-                at(9,5)
+                Point.at(9, 0),
+                Point.at(9, 1),
+                Point.at(9, 2),
+                Point.at(9, 3),
+                Point.at(9, 4),
+                Point.at(9, 5)
             )
         }
 
@@ -77,9 +78,9 @@ class Day5Test {
             ) }
 
             assertThat(actual).containsExactlyInAnyOrder(
-                at(9,7),
-                at(8,8),
-                at(7,9),
+                Point.at(9, 7),
+                Point.at(8, 8),
+                Point.at(7, 9),
             )
         }
 
@@ -94,9 +95,9 @@ class Day5Test {
             }
             val actual: Map<Point, Int> = somePoints.getOverlappingPoints()
             assertThat(actual).containsExactly(
-                entry(at(0,9),1),
-                entry(at(1,9),1),
-                entry(at(2,9),1),
+                entry(Point.at(0, 9), 1),
+                entry(Point.at(1, 9), 1),
+                entry(Point.at(2, 9), 1),
             )
         }
     }
