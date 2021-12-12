@@ -14,7 +14,7 @@ object Day9 {
         val allBasins = heightmap.findBasins()
         checkNoMergingBasins(allBasins)
         val threeLargestBasins = allBasins
-            .sortedByDescending { it.size }.onEach { println(it) }
+            .sortedByDescending { it.size }
             .take(3)
         return threeLargestBasins.map { it.size }.reduce { prev, cur -> prev * cur }
     }
