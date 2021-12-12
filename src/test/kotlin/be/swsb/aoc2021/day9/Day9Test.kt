@@ -27,7 +27,7 @@ class Day9Test {
 
         @Test
         fun `Solving part 2 given actual input should return 1397760`() {
-            assertThat(Day9.solve2("day9/actualInput.txt".readLines()).also { println("solve2: $it") })
+            assertThat(Day9.solve2("day9/actualInput.txt".readLines()))
                 .isGreaterThan(936000)
                 .isLessThan(  1961856)
                 .isEqualTo(1397760)
