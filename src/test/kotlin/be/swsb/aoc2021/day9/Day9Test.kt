@@ -19,6 +19,18 @@ class Day9Test {
         fun `Solving part 1 given actual input should return 462`() {
             assertThat(Day9.solve1("day9/actualInput.txt".readLines())).isEqualTo(462)
         }
+
+        @Test
+        fun `Solving part 2 given test input should return 1134`() {
+            assertThat(Day9.solve2("day9/testInput.txt".readLines())).isEqualTo(1134)
+        }
+
+        @Test
+        fun `Solving part 2 given actual input should return something larger than 936000`() {
+            assertThat(Day9.solve2("day9/actualInput.txt".readLines()).also { println("solve2: $it") })
+                .isGreaterThan(936000)
+                .isLessThan(  1961856)
+        }
     }
 
     @Nested
