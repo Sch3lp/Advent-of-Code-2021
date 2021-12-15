@@ -50,6 +50,15 @@ data class Point(val x: Int, val y: Int) {
             //@formatter:on
         ).map { vector -> this + vector }
 
+    fun allNeighbours(): List<Point> =
+        listOf(
+            //@formatter:off
+            at(-1, -1),   at(0, -1),  at(1, -1),
+            at(-1, 0),                      at(1, 0),
+            at(-1, 1),    at(0, 1),   at(1, 1),
+            //@formatter:on
+        ).map { vector -> this + vector }
+
     override fun toString() = "($x,$y)"
 
     companion object {
@@ -60,4 +69,5 @@ data class Point(val x: Int, val y: Int) {
             return Point(x, y)
         }
     }
+
 }
