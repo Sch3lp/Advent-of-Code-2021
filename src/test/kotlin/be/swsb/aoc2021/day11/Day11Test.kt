@@ -19,13 +19,13 @@ class Day11Test {
         }
 
         @Test
-        fun `Solving part 2 given test input should return 1656`() {
-            assertThat(Day11.solve2("day11/testInput.txt".readLines())).isEqualTo(1656u)
+        fun `Solving part 2 given test input should return 195`() {
+            assertThat(Day11.solve2("day11/testInput.txt".readLines())).isEqualTo(195)
         }
 
         @Test
-        fun `Solving part 2 given actual input should return 1656`() {
-            assertThat(Day11.solve2("day11/actualInput.txt".readLines())).isEqualTo(1656u)
+        fun `Solving part 2 given actual input should return 403`() {
+            assertThat(Day11.solve2("day11/actualInput.txt".readLines())).isEqualTo(403)
         }
     }
 

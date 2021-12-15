@@ -8,18 +8,27 @@ object Day11 {
         return DumboOctopusConsortium(input).step(100).amountOfFlashedOctopi
     }
 
-    fun solve2(input: List<String>) : AmountOfFlashes {
-        return 0u
+    fun solve2(input: List<String>) : AmountOfSteps {
+        var dumboOctopusConsortium = DumboOctopusConsortium(input)
+        var stepCounter = 0
+        while(!dumboOctopusConsortium.allOctopiFlashSimultaneously) {
+            stepCounter++
+            dumboOctopusConsortium = dumboOctopusConsortium.step()
+        }
+        return stepCounter
     }
 }
 
 typealias AmountOfFlashes = UInt
+typealias AmountOfSteps = Int
 
 
 data class DumboOctopusConsortium(
     private val octopuses: Map<Point, DumboOctopus>,
     val amountOfFlashedOctopi: UInt = 0u
 ) {
+    val allOctopiFlashSimultaneously: Boolean = octopuses.all { (_,v)-> v.energy == Energy(0u) }
+
     constructor(input: List<String>) : this(
         input.flatMapIndexed { idx, line ->
             line.mapIndexed { lineIndex, char -> DumboOctopus(Point.at(lineIndex, idx), "$char".toUInt()) }
