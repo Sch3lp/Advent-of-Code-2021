@@ -21,11 +21,23 @@ class Graph(private val edgeList: List<Edge>) {
     private val visited: MutableMap<Node, Boolean>
         get() = uniqueNodes.associateWith { false }.toMutableMap()
 
+    private fun neighboursOf(node: Node) = adjacencyList[node]?.map { it.second } ?: emptyList()
+
     fun findAllPaths(from: String = "start", to: String = "end"): List<Path> {
         return depthFirstSearch(from, to, visited, path = mutableListOf(from), paths = mutableListOf())
     }
 
-    private fun depthFirstSearch(from: Node, to: Node, visited: MutableMap<Node, Boolean>, path: PathBuilder = mutableListOf(), paths: MutableList<Path>): MutableList<Path> {
+    fun findAllPaths2(from: String = "start", to: String = "end"): List<Path> {
+        return depthFirstSearch2(from, to, visited, path = mutableListOf(from), paths = mutableListOf())
+    }
+
+    private fun depthFirstSearch(
+        from: Node,
+        to: Node,
+        visited: MutableMap<Node, Boolean>,
+        path: PathBuilder = mutableListOf(),
+        paths: MutableList<Path>
+    ): MutableList<Path> {
         if (from == to) {
             paths += path.toList()
             return paths
@@ -42,7 +54,29 @@ class Graph(private val edgeList: List<Edge>) {
         return paths
     }
 
-    private fun neighboursOf(node: Node) = adjacencyList[node]?.map { it.second } ?: emptyList()
+    private fun depthFirstSearch2(
+        from: Node,
+        to: Node,
+        visited: MutableMap<Node, Boolean>,
+        path: PathBuilder = mutableListOf(),
+        paths: MutableList<Path>
+    ): MutableList<Path> {
+        if (from == to) {
+            paths += path.toList()
+            return paths
+        }
+        visited[from] = from.isSmall()
+        neighboursOf(from).forEach { node ->
+            if (!visited.getValue(node)) {
+                path += node
+                depthFirstSearch(node, to, visited, path, paths)
+                path.removeLast()
+            }
+        }
+        visited[from] = false
+        return paths
+    }
+
 
     companion object {
         fun from(input: String): Graph = from(input.split("\n"))
