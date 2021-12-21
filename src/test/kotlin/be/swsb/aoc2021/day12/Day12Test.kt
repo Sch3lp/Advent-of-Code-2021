@@ -37,20 +37,20 @@ class Day12Test {
             """.trimIndent()
 
             val graph = Graph.from(input)
-            val actual: List<List<String>> = graph.findAllPaths()
+            val actual: List<String> = graph.findAllPaths2().map { path -> path.joinToString(",") }
             assertThat(actual)
                 .hasSize(10)
                 .containsExactlyInAnyOrder(
-                    listOf("start", "A", "b", "A", "c", "A", "end"),
-                    listOf("start", "A", "b", "A", "end"),
-                    listOf("start", "A", "b", "end"),
-                    listOf("start", "A", "c", "A", "b", "A", "end"),
-                    listOf("start", "A", "c", "A", "b", "end"),
-                    listOf("start", "A", "c", "A", "end"),
-                    listOf("start", "A", "end"),
-                    listOf("start", "b", "A", "c", "A", "end"),
-                    listOf("start", "b", "A", "end"),
-                    listOf("start", "b", "end"),
+                    "start,A,b,A,c,A,end",
+                    "start,A,b,A,end",
+                    "start,A,b,end",
+                    "start,A,c,A,b,A,end",
+                    "start,A,c,A,b,end",
+                    "start,A,c,A,end",
+                    "start,A,end",
+                    "start,b,A,c,A,end",
+                    "start,b,A,end",
+                    "start,b,end",
                 )
         }
 
@@ -67,7 +67,7 @@ class Day12Test {
             """.trimIndent()
 
             val graph = Graph.from(input)
-            val actual: List<String> = graph.findAllPaths2().map { path -> path.joinToString() }
+            val actual: List<String> = graph.findAllPaths2().map { path -> path.joinToString(",") }
             assertThat(actual)
                 .hasSize(36)
                 .containsExactlyInAnyOrder(
@@ -126,29 +126,29 @@ class Day12Test {
             """.trimIndent()
 
             val graph = Graph.from(input)
-            val actual: List<List<String>> = graph.findAllPaths()
+            val actual: List<String> = graph.findAllPaths().map { path -> path.joinToString(",") }
             assertThat(actual)
                 .hasSize(19)
                 .containsExactlyInAnyOrder(
-                    listOf("start", "HN", "dc", "HN", "end"),
-                    listOf("start", "HN", "dc", "HN", "kj", "HN", "end"),
-                    listOf("start", "HN", "dc", "end"),
-                    listOf("start", "HN", "dc", "kj", "HN", "end"),
-                    listOf("start", "HN", "end"),
-                    listOf("start", "HN", "kj", "HN", "dc", "HN", "end"),
-                    listOf("start", "HN", "kj", "HN", "dc", "end"),
-                    listOf("start", "HN", "kj", "HN", "end"),
-                    listOf("start", "HN", "kj", "dc", "HN", "end"),
-                    listOf("start", "HN", "kj", "dc", "end"),
-                    listOf("start", "dc", "HN", "end"),
-                    listOf("start", "dc", "HN", "kj", "HN", "end"),
-                    listOf("start", "dc", "end"),
-                    listOf("start", "dc", "kj", "HN", "end"),
-                    listOf("start", "kj", "HN", "dc", "HN", "end"),
-                    listOf("start", "kj", "HN", "dc", "end"),
-                    listOf("start", "kj", "HN", "end"),
-                    listOf("start", "kj", "dc", "HN", "end"),
-                    listOf("start", "kj", "dc", "end"),
+                    "start,HN,dc,HN,end",
+                    "start,HN,dc,HN,kj,HN,end",
+                    "start,HN,dc,end",
+                    "start,HN,dc,kj,HN,end",
+                    "start,HN,end",
+                    "start,HN,kj,HN,dc,HN,end",
+                    "start,HN,kj,HN,dc,end",
+                    "start,HN,kj,HN,end",
+                    "start,HN,kj,dc,HN,end",
+                    "start,HN,kj,dc,end",
+                    "start,dc,HN,end",
+                    "start,dc,HN,kj,HN,end",
+                    "start,dc,end",
+                    "start,dc,kj,HN,end",
+                    "start,kj,HN,dc,HN,end",
+                    "start,kj,HN,dc,end",
+                    "start,kj,HN,end",
+                    "start,kj,dc,HN,end",
+                    "start,kj,dc,end",
                 )
         }
     }
