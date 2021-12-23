@@ -27,9 +27,9 @@ class Day14Test {
         }
 
         @Test
-        fun `part 2's solution for actual input is larger than 2223`() {
+        fun `part 2's solution for actual input is 2566282754493`() {
             val actual = Day14.solve2("day14/actualInput.txt".readLines())
-            assertThat(actual).isEqualTo(2223)
+            assertThat(actual).isEqualTo(2566282754493)
         }
     }
 
