@@ -61,6 +61,24 @@ data class Point(val x: Int, val y: Int) {
 
     override fun toString() = "($x,$y)"
 
+    fun fold(instruction: FoldInstruction): Point {
+        return when(instruction) {
+            is FoldInstruction.Up -> foldUp(instruction.across)
+            is FoldInstruction.Left -> foldLeft(instruction.across)
+        }
+    }
+
+    private fun foldUp(acrossAxis: Int) = this.copy(y = fold(y, acrossAxis))
+    private fun foldLeft(acrossAxis: Int) = this.copy(x = fold(x, acrossAxis))
+
+    private fun fold(axis: Int, creaseAxis: Int): Int {
+        return if (axis <= creaseAxis) {
+            axis
+        } else {
+            (creaseAxis - (axis % creaseAxis)).let { if (it == creaseAxis) 0 else it }
+        }
+    }
+
     companion object {
         fun at(x: Int, y: Int): Point = Point(x, y)
 
@@ -70,4 +88,10 @@ data class Point(val x: Int, val y: Int) {
         }
     }
 
+}
+
+sealed interface FoldInstruction {
+    val across: Int
+    data class Up(override val across: Int) : FoldInstruction
+    data class Left(override val across: Int) : FoldInstruction
 }
