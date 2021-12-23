@@ -22,6 +22,12 @@ class Day13Test {
             val actual = Day13.solve1("day13/actualInput.txt".readLines())
             assertThat(actual).isEqualTo(731)
         }
+
+        @Test
+        fun `solve2 with actualInput prints something`() {
+            val actual = Day13.solve2("day13/actualInput.txt".readLines())
+            println(actual) // ZKAUCFUC
+        }
     }
 
     @Nested

@@ -2,6 +2,7 @@ package be.swsb.aoc2021.day13
 
 import be.swsb.aoc2021.common.FoldInstruction
 import be.swsb.aoc2021.common.Point
+import be.swsb.aoc2021.common.Point.Companion.at
 
 object Day13 {
     fun solve1(input: List<String>): Int {
@@ -9,8 +10,10 @@ object Day13 {
         return paper.fold(instructions.take(1)).visibleDots
     }
 
-    fun solve2(input: List<String>): Int {
-        return 0
+    fun solve2(input: List<String>): String {
+        val (paper, instructions) = parse(input)
+        val foldedPaper = paper.fold(instructions)
+        return foldedPaper.asString()
     }
 
     fun parse(input: List<String>): Pair<Paper, List<FoldInstruction>> {
@@ -23,7 +26,7 @@ object Day13 {
 data class Paper(private val dots: Set<Point>) {
 
     val visibleDots: Int by lazy { dots.size }
-    private val dimension: Pair<Int,Int> = dots.maxOf { it.x } to dots.maxOf { it.y }
+    private val dimension: Pair<Int, Int> = dots.maxOf { it.x } to dots.maxOf { it.y }
 
     init {
         println("Paper has dimension of ${dimension.first} by ${dimension.second}")
@@ -35,6 +38,18 @@ data class Paper(private val dots: Set<Point>) {
     fun fold(instruction: FoldInstruction) = instruction.run {
         println("Folding $this. Middle axes: x ${dimension.first / 2}, y ${dimension.second / 2}")
         Paper(dots.map { it.fold(this) }.toSet())
+    }
+
+    fun asString(): String {
+        return (0..dimension.second).joinToString("\n") { y ->
+            (0..dimension.first).joinToString("") { x ->
+                if (at(x,y) in dots) {
+                    "◻️"
+                } else {
+                    "◼️"
+                }
+            }
+        }
     }
 }
 
