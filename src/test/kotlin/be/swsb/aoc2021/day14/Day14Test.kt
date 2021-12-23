@@ -9,7 +9,7 @@ class Day14Test {
     @Nested
     inner class SolutionTests {
         @Test
-        fun `part 1's solution for test input is 123`() {
+        fun `part 1's solution for test input is 1588`() {
             val actual = Day14.solve1("day14/testInput.txt".readLines())
             assertThat(actual).isEqualTo(1749 - 161)
         }
@@ -17,6 +17,18 @@ class Day14Test {
         @Test
         fun `part 1's solution for actual input is 2223`() {
             val actual = Day14.solve1("day14/actualInput.txt".readLines())
+            assertThat(actual).isEqualTo(2223)
+        }
+
+        @Test
+        fun `part 2's solution for test input is 2188189693529`() {
+            val actual = Day14.solve2("day14/testInput.txt".readLines())
+            assertThat(actual).isEqualTo(2192039569602 - 3849876073)
+        }
+
+        @Test
+        fun `part 2's solution for actual input is larger than 2223`() {
+            val actual = Day14.solve2("day14/actualInput.txt".readLines())
             assertThat(actual).isEqualTo(2223)
         }
     }
@@ -50,13 +62,16 @@ class Day14Test {
 
         @Test
         fun `can expand polymer by injecting according to rules`() {
-            val (template, rules) = Day14.parse("day14/testInput.txt".readLines())
-            template.expandWith(rules).also { expandedPolymer -> assertThat(expandedPolymer).isEqualTo("NCNBCHB") }
+            val (_, rules) = Day14.parse("day14/testInput.txt".readLines())
+            "NNCB".expandWith(rules).also { expandedPolymer -> assertThat(expandedPolymer).isEqualTo("NCNBCHB") }
                 .expandWith(rules).also { expandedPolymer -> assertThat(expandedPolymer).isEqualTo("NBCCNBBBCBHCB") }
-                .expandWith(rules).also { expandedPolymer -> assertThat(expandedPolymer).isEqualTo("NBBBCNCCNBBNBNBBCHBHHBCHB") }
-                .expandWith(rules).also { expandedPolymer -> assertThat(expandedPolymer).isEqualTo("NBBNBNBBCCNBCNCCNBBNBBNBBBNBBNBBCBHCBHHNHCBBCBHCB") }
+                .expandWith(rules)
+                .also { expandedPolymer -> assertThat(expandedPolymer).isEqualTo("NBBBCNCCNBBNBNBBCHBHHBCHB") }
+                .expandWith(rules)
+                .also { expandedPolymer -> assertThat(expandedPolymer).isEqualTo("NBBNBNBBCCNBCNCCNBBNBBNBBBNBBNBBCBHCBHHNHCBBCBHCB") }
         }
     }
 }
 
 private fun String.expandWith(rules: List<Rule>): String = Day14.expandPolymer(this, rules)
+private fun String.asCombination(): Combination = Combination(this.first(), this.last())

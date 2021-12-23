@@ -18,9 +18,42 @@ object Day14 {
                 combination.inject(insertion).drop(1)
             }
 
-    fun solve2(input: List<String>): Int {
-        return 0
+//    Java Heap space T_T
+    fun solve2(input: List<String>): Long {
+        val (initialTemplate, rules) = parse(input)
+        val initialCombinations: List<Combination> =
+            initialTemplate.windowed(2) { elements -> elements.first() with elements.last() }
+        val initialElementCount: Map<Element, Long> = initialTemplate.groupBy { it }.mapValues { (_,v) -> v.size.toLong() }
+        val polymer = (1..40).fold(Polymer(initialCombinations, initialElementCount)) { polymer, _ ->
+            polymer.expand(rules)
+        }
+        val mostCommon = polymer.mostCommon
+        val leastCommon = polymer.leastCommon
+        return mostCommon - leastCommon
     }
+
+//    Also Java Heap Space
+//    fun solve2(input: List<String>): Long {
+//        val (initialTemplate, rules) = parse(input)
+//        var combinations: MutableList<Combination> =
+//            initialTemplate.windowed(2) { elements -> elements.first() with elements.last() }.toMutableList()
+//        val countPerElement: MutableMap<Element, Long> = initialTemplate.groupBy { it }.mapValues { (_,v) -> v.size.toLong() }.toMutableMap()
+//        val snarf: LinkedList<Element> = LinkedList(combinations.flatMap { (left, right) -> listOf(left,right) })
+//        repeat(40) {
+//            val tmpCombinations = combinations.toList()
+//            combinations.clear()
+//            tmpCombinations.forEach { combination ->
+//                val insertion =
+//                    rules.find { rule -> rule.combination == combination }?.insertion?.also { insertedElement ->
+//                        countPerElement[insertedElement] = countPerElement[insertedElement]?.plus(1) ?: 1
+//                    }
+//                combinations += combination.insert(insertion)
+//            }
+//        }
+//        val mostCommon = countPerElement.values.maxOf { it }
+//        val leastCommon = countPerElement.values.minOf { it }
+//        return mostCommon - leastCommon
+//    }
 
     fun parse(input: List<String>): Pair<String, List<Rule>> {
         val rules = input.subList(input.indexOf("") + 1, input.size)
@@ -37,9 +70,33 @@ private fun String.parseToRule(): Rule {
     return Rule(one with two, insert.toCharArray()[0])
 }
 
-data class Combination(val left: Char, val right: Char) {
-    fun inject(insertion: Char?) = insertion?.let { "$left$it$right" } ?: "$left$right"
+data class Combination(val left: Element, val right: Element) {
+    fun inject(insertion: Element?) = insertion?.let { "$left$it$right" } ?: "$left$right"
+    fun insert(insertion: Element?) =
+        insertion?.let { listOf(left with insertion, insertion with right) } ?: emptyList()
+
     override fun toString() = "$left$right"
 }
 
-infix fun Char.with(other: Char): Combination = Combination(this, other)
+typealias Element = Char
+
+infix fun Element.with(other: Element): Combination = Combination(this, other)
+
+data class Polymer(
+    private val combinations: List<Combination>,
+    private val countPerElement: Map<Element, Long>
+) {
+    val mostCommon: Long by lazy { countPerElement.values.maxOf { it } }
+    val leastCommon: Long by lazy { countPerElement.values.minOf { it } }
+
+    fun expand(rules: List<Rule>): Polymer {
+        val mutablePolymer = countPerElement.toMutableMap()
+        val lastCreatedCombinations = combinations.asSequence().flatMap { combination ->
+            val insertion = rules.find { rule -> rule.combination == combination }?.insertion?.also { insertedElement ->
+                mutablePolymer[insertedElement] = mutablePolymer[insertedElement]?.plus(1) ?: 1
+            }
+            combination.insert(insertion)
+        }
+        return Polymer(lastCreatedCombinations.toList(), mutablePolymer)
+    }
+}
