@@ -109,18 +109,6 @@ class Graph(private val edgeList: List<Edge>) {
         }
     }
     private fun resetSpecialNode() { specialNode = null }
-
-
-    companion object {
-        fun from(input: String): Graph = from(input.split("\n"))
-        fun from(input: List<String>): Graph {
-            val edges = input.map { edgeAsString ->
-                val (from, to) = edgeAsString.split("-")
-                from to to
-            }
-            return Graph(edges)
-        }
-    }
 }
 
 fun Node.isStart(): Boolean = this == "start"

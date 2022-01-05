@@ -36,7 +36,7 @@ class Day12Test {
                 b-end
             """.trimIndent()
 
-            val graph = Graph.from(input)
+            val graph = Day12.from(input)
             val actual: List<String> = graph.findAllPaths2().map { path -> path.joinToString(",") }
             assertThat(actual)
                 .hasSize(10)
@@ -66,7 +66,7 @@ class Day12Test {
                 b-end
             """.trimIndent()
 
-            val graph = Graph.from(input)
+            val graph = Day12.from(input)
             val actual: List<String> = graph.findAllPaths2().map { path -> path.joinToString(",") }
             assertThat(actual)
                 .hasSize(36)
@@ -125,7 +125,7 @@ class Day12Test {
                 kj-dc
             """.trimIndent()
 
-            val graph = Graph.from(input)
+            val graph = Day12.from(input)
             val actual: List<String> = graph.findAllPaths().map { path -> path.joinToString(",") }
             assertThat(actual)
                 .hasSize(19)
